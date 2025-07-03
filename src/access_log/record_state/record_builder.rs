@@ -1255,7 +1255,19 @@ impl RecordBuilder {
                                 };
 
                                 let obj_storage = self.obj_storage.ok_or(RecordBuilderError::RecordIncomplete("obj_storage"))?;
-                                let obj_ttl = self.obj_ttl.ok_or(RecordBuilderError::RecordIncomplete("obj_ttl"))?;
+                                let obj_ttl = match self.obj_ttl {
+                                    Some(val) => val,
+                                    None => {
+                                        RecordBuilderError::RecordIncomplete("obj_ttl");
+                                        ObjTtl {
+                                            ttl: Some(0.0),
+                                            grace: Some(0.0),
+                                            keep: Some(0.0),
+                                            since: 0.0,
+                                            origin: None,
+                                        }
+                                    }
+                                };
 
                                 let (fetch_mode, fetch_streamed) = match self.fetch_body {
                                     Some(f) => (Some(f.mode), Some(f.streamed)),
