@@ -1259,7 +1259,6 @@ impl RecordBuilder {
                                     Some(val) => val,
                                     None => {
                                         debug!("obj_ttl is not set; applying default");
-                                        RecordBuilderError::RecordIncomplete("obj_ttl");
                                         ObjTtl {
                                             ttl: Some(0.0),
                                             grace: Some(0.0),
